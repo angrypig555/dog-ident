@@ -1,2 +1,2 @@
 # dog-ident
-Dog type identifier written in assembly
+Dog type identifier written in C++
