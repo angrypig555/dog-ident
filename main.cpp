@@ -16,6 +16,7 @@ int input_size;
 std::string raw_size;
 std::string coat_raw;
 int input_coat_type;
+int is_golden_retriever_color;
 
 // this function converts the coat type into the integer format
 void coat(std::string to_lower) {
@@ -34,7 +35,13 @@ void coat(std::string to_lower) {
 }
 
 void compare_color(std::string color) {
-    
+    goldenRetriever gl;
+    auto it = std::find(gl.colors, gl.colors + 5, color);
+    if (it != gl.colors + 5) {
+        is_golden_retriever_color = 1;
+    } else {
+        is_golden_retriever_color = 0;
+    }
 }
 
 // this function converts the size into the integer format for easier comparison
@@ -55,7 +62,7 @@ void size(std::string size) {
     }
 }
 
-void color(std::string lower) {
+void color(std::string &lower) {
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
 }
 
@@ -78,9 +85,15 @@ int main() {
         std::cout << "error: " << size_error.what() << std::endl;
         return 1;
     }
-    std::cout << input_size;
+    std::cout << input_size; // for debug
     std::cout << "what is the color of your dog? keep it 1 word only: ";
     std::cin >> input_color;
     color(input_color);
+    try {
+        compare_color(input_color);
+    } catch (const std::exception& color_cmp_error) {
+        return 1; // todo: add the error handler
+    }
+    std::cout << is_golden_retriever_color; // for debug
     return 0;
 }
