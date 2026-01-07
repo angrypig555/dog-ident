@@ -27,6 +27,12 @@ int is_golden_retriever_color;
 int is_border_collie_color;
 int is_golden_retriever_size;
 int is_border_collie_size;
+int is_golden_retriever_coat;
+int is_border_collie_coat;
+int is_golden_retriever;
+int is_border_collie;
+std::string yesno;
+// int result_accuracy; unused for now
 
 // this function converts the coat type into the integer format
 void coat(std::string to_lower) {
@@ -68,8 +74,35 @@ void compare_size(int size) {
     } else if (size == 3) {
         is_border_collie_size = 1;
     } else {
-        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo");
+        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_size");
     }
+}
+
+void compare_coat(int coat) {
+    goldenRetriever gl;
+    borderCollie bl;
+    if (coat == 1) {
+        is_golden_retriever_coat = 1;
+    } else if (coat == 6) {
+        is_border_collie_coat = 1;
+    } else {
+        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_coat");
+    }
+}
+
+void compare_final() {
+    goldenRetriever gl;
+    borderCollie bl;
+    if (is_golden_retriever_coat == 1 and is_golden_retriever_color == 1 and is_golden_retriever_size == 1) {
+        is_golden_retriever = 1;
+        std::cout << "Is your dog a golden retriever?" << std::endl;
+    } else if (is_border_collie_coat == 1 and is_border_collie_color == 1 and is_border_collie_size == 1) {
+        is_border_collie = 1;
+        std::cout << "Is your dog a border collie?" << std::endl;
+    } else {
+        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo error in compare_final");
+    }
+
 }
 
 // this function converts the size into the integer format for easier comparison
@@ -94,9 +127,14 @@ void color(std::string &lower) {
     std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
 }
 
+void lower(std::string &lower) {
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+}
+
 int main() {
     goldenRetriever glRet;
     std::cout << "dog-ident v1, for woof" << std::endl;
+questions:
     std::cout << "what type of coat does your dog have? short, long, curly, double: ";
     std::cin >> coat_raw;
     try {
@@ -126,7 +164,27 @@ int main() {
         compare_size(input_size);
     } catch (const std::exception& size_cmp_error) {
         std::cout << "error: " << size_cmp_error.what() << std::endl;
+        return 1;
     }
-    std::cout << is_golden_retriever_color; // for debug
+    try {
+        compare_coat(input_coat_type);
+    } catch (const std::exception& coat_error) {
+        std::cout << "error: " << coat_error.what() << std::endl;
+        return 1;
+    }
+    try {
+        compare_final();
+    } catch (const std::exception& compare_error) {
+        std::cout << "error: " << compare_error.what() << std::endl;
+        return 1;
+    } 
+    std::cin >> yesno;
+    lower(yesno);
+    if (yesno == "no") {
+        goto questions;
+    } else if (yesno == "yes") {
+        std::cout << "yay!" << std::endl;
+    }
+
     return 0;
 }
