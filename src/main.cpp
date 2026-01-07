@@ -25,6 +25,13 @@ class frenchBulldog {
         int size = 2;
 };
 
+class dachshund {
+    public:
+        int coat_type = 2;
+        std::string colors[6] = {"black", "brown", "chocolate", "cream", "tan", "red"};
+        int size = 1;
+};
+
 std::string input_color;
 int input_size;
 std::string raw_size;
@@ -33,15 +40,19 @@ int input_coat_type;
 int is_golden_retriever_color;
 int is_border_collie_color;
 int is_bulldog_color;
+int is_dachshund_color;
 int is_golden_retriever_size;
 int is_border_collie_size;
 int is_bulldog_size;
+int is_dachshund_size;
 int is_golden_retriever_coat;
 int is_border_collie_coat;
 int is_bulldog_coat;
+int is_dachshund_coat;
 int is_golden_retriever;
 int is_border_collie;
 int is_bulldog;
+int is_dachshund;
 std::string yesno;
 // int result_accuracy; unused for now
 
@@ -85,6 +96,13 @@ void compare_color(std::string color) {
     } else {
         is_bulldog_color = 0;
     }
+    dachshund d;
+    auto dit = std::find(d.colors, d.colors + 6, color);
+    if (dit != d.colors + 6) {
+        is_dachshund_color = 1;
+    } else {
+        is_dachshund_color = 0;
+    }
 }
 
 void compare_size(int size) {
@@ -96,6 +114,8 @@ void compare_size(int size) {
         is_border_collie_size = 1;
     } else if (size == 2) {
         is_bulldog_size = 1;
+    } else if (size == 1) {
+        is_dachshund_size = 1;
     } else {
         throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_size");
     }
@@ -110,6 +130,7 @@ void compare_coat(int coat) {
         is_border_collie_coat = 1;
     } else if (coat == 2) {
         is_bulldog_coat = 1;
+        is_dachshund_coat = 1;
     } else {
         throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_coat");
     }
@@ -127,6 +148,9 @@ void compare_final() {
     } else if (is_bulldog_coat == 1 and is_bulldog_color == 1 and is_bulldog_size == 1) {
         is_bulldog = 1;
         std::cout << "Is your dog a french bulldog?" << std::endl;
+    } else if (is_dachshund_coat == 1 and is_dachshund_color == 1 and is_dachshund_size == 1) {
+        is_dachshund = 1;
+        std::cout << "Is your dog a dachshund?" << std::endl;
     } else {
         throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo error in compare_final");
     }
