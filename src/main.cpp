@@ -30,6 +30,7 @@ int input_size;
 std::string raw_size;
 std::string coat_raw;
 int input_coat_type;
+/*
 int is_golden_retriever_color;
 int is_border_collie_color;
 int is_bulldog_color;
@@ -42,6 +43,7 @@ int is_bulldog_coat;
 int is_golden_retriever;
 int is_border_collie;
 int is_bulldog;
+*/
 std::string yesno;
 // int result_accuracy; unused for now
 
@@ -63,7 +65,7 @@ void coat(std::string to_lower) {
     }
     
 }
-
+/*
 void compare_color(std::string color) {
     goldenRetriever gl;
     auto it = std::find(gl.colors, gl.colors + 5, color);
@@ -132,7 +134,7 @@ void compare_final() {
     }
 
 }
-
+*/
 // this function converts the size into the integer format for easier comparison
 void size(std::string size) {
     std::transform(size.begin(), size.end(), size.begin(), ::tolower);
