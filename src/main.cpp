@@ -15,7 +15,7 @@ class borderCollie {
     public:
         int coat_type = 6;
         std::string colors = "multicolor";
-        int size = 4;
+        int size = 3;
 };
 
 std::string input_color;
@@ -24,6 +24,9 @@ std::string raw_size;
 std::string coat_raw;
 int input_coat_type;
 int is_golden_retriever_color;
+int is_border_collie_color;
+int is_golden_retriever_size;
+int is_border_collie_size;
 
 // this function converts the coat type into the integer format
 void coat(std::string to_lower) {
@@ -48,6 +51,24 @@ void compare_color(std::string color) {
         is_golden_retriever_color = 1;
     } else {
         is_golden_retriever_color = 0;
+    }
+    borderCollie bl;
+    if (color == bl.colors) {
+        is_border_collie_color = 1;
+    } else {
+        is_border_collie_color = 0;
+    }
+}
+
+void compare_size(int size) {
+    goldenRetriever gl;
+    borderCollie bl;
+    if (size == 4) {
+        is_golden_retriever_size = 1;
+    } else if (size == 3) {
+        is_border_collie_size = 1;
+    } else {
+        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo");
     }
 }
 
@@ -100,6 +121,11 @@ int main() {
         compare_color(input_color);
     } catch (const std::exception& color_cmp_error) {
         return 1; // todo: add the error handler
+    }
+    try {
+        compare_size(input_size);
+    } catch (const std::exception& size_cmp_error) {
+        std::cout << "error: " << size_cmp_error.what() << std::endl;
     }
     std::cout << is_golden_retriever_color; // for debug
     return 0;
