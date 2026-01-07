@@ -1,8 +1,8 @@
 #include<iostream>
 #include<algorithm>
 
-// sizes: 1 - small; 2 small-medium; 3 - medium; 4 medium - large; 5 large; 6 rough;
-// coats: 1 - double; 2 short; 3 long; 4; curly
+// sizes: 1 - small; 2 small-medium; 3 - medium; 4 medium - large; 5 large; 
+// coats: 1 - double; 2 short; 3 long; 4 curly; 5 rough
 
 class goldenRetriever {
     public:
@@ -13,9 +13,16 @@ class goldenRetriever {
 
 class borderCollie {
     public:
-        int coat_type = 6;
+        int coat_type = 5;
         std::string colors = "multicolor";
         int size = 3;
+};
+
+class frenchBulldog {
+    public:
+        int coat_type = 2;
+        std::string colors[5] = {"white", "brindle", "multicolor", "fawn", "tan"};
+        int size = 2;
 };
 
 std::string input_color;
@@ -25,12 +32,16 @@ std::string coat_raw;
 int input_coat_type;
 int is_golden_retriever_color;
 int is_border_collie_color;
+int is_bulldog_color;
 int is_golden_retriever_size;
 int is_border_collie_size;
+int is_bulldog_size;
 int is_golden_retriever_coat;
 int is_border_collie_coat;
+int is_bulldog_coat;
 int is_golden_retriever;
 int is_border_collie;
+int is_bulldog;
 std::string yesno;
 // int result_accuracy; unused for now
 
@@ -45,9 +56,12 @@ void coat(std::string to_lower) {
         input_coat_type = 3;
     } else if (to_lower == "curly") {
         input_coat_type = 4;
+    } else if (to_lower == "rough") {
+        input_coat_type = 5;
     } else {
         throw std::runtime_error("coat not found");
     }
+    
 }
 
 void compare_color(std::string color) {
@@ -64,6 +78,13 @@ void compare_color(std::string color) {
     } else {
         is_border_collie_color = 0;
     }
+    frenchBulldog fb;
+    auto fbit = std::find(fb.colors, fb.colors + 5, color);
+    if (fbit != fb.colors + 5) {
+        is_bulldog_color = 1;
+    } else {
+        is_bulldog_color = 0;
+    }
 }
 
 void compare_size(int size) {
@@ -73,6 +94,8 @@ void compare_size(int size) {
         is_golden_retriever_size = 1;
     } else if (size == 3) {
         is_border_collie_size = 1;
+    } else if (size == 2) {
+        is_bulldog_size = 1;
     } else {
         throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_size");
     }
@@ -83,8 +106,10 @@ void compare_coat(int coat) {
     borderCollie bl;
     if (coat == 1) {
         is_golden_retriever_coat = 1;
-    } else if (coat == 6) {
+    } else if (coat == 5) {
         is_border_collie_coat = 1;
+    } else if (coat == 2) {
+        is_bulldog_coat = 1;
     } else {
         throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_coat");
     }
@@ -99,6 +124,9 @@ void compare_final() {
     } else if (is_border_collie_coat == 1 and is_border_collie_color == 1 and is_border_collie_size == 1) {
         is_border_collie = 1;
         std::cout << "Is your dog a border collie?" << std::endl;
+    } else if (is_bulldog_coat == 1 and is_bulldog_color == 1 and is_bulldog_size == 1) {
+        is_bulldog = 1;
+        std::cout << "Is your dog a french bulldog?" << std::endl;
     } else {
         throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo error in compare_final");
     }
@@ -184,6 +212,8 @@ questions:
         goto questions;
     } else if (yesno == "yes") {
         std::cout << "yay!" << std::endl;
+        std::cout << "if you have any dog breeds that you would like to get added, please open an issue in the repo" << std::endl;
+        std::cout << "thank you for using dog-ident" << std::endl;
     }
 
     return 0;
