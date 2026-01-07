@@ -1,13 +1,20 @@
 #include<iostream>
 #include<algorithm>
 
-// sizes: 1 - small; 2 small-medium; 3 - medium; 4 medium - large; 5 large;
+// sizes: 1 - small; 2 small-medium; 3 - medium; 4 medium - large; 5 large; 6 rough;
 // coats: 1 - double; 2 short; 3 long; 4; curly
 
 class goldenRetriever {
     public:
         int coat_type = 1; // 1 = double coat
         std::string colors[5] = {"cream", "gold", "dark gold", "dark red"};
+        int size = 4;
+};
+
+class borderCollie {
+    public:
+        int coat_type = 6;
+        std::string colors = "multicolor";
         int size = 4;
 };
 
@@ -86,7 +93,7 @@ int main() {
         return 1;
     }
     std::cout << input_size; // for debug
-    std::cout << "what is the color of your dog? keep it 1 word only: ";
+    std::cout << "what is the color of your dog? keep it 1 word only, if it has multiple colors write multicolor: ";
     std::cin >> input_color;
     color(input_color);
     try {

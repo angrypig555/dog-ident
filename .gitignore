@@ -1,2 +1,3 @@
 *.o
 dog-ident
+build/
