@@ -3,3 +3,7 @@ project(dog-ident VERSION 0.1.0 LANGUAGES C CXX)
 
 add_executable(dog-ident src/main.cpp)
 
+set_target_properties(dog-ident PROPERTIES
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED YES
+)
