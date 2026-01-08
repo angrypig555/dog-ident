@@ -1,3 +1,4 @@
 *.o
 dog-ident
 build/
+build-windows/

@@ -2,13 +2,15 @@
 #include<algorithm>
 
 // sizes: 1 - small; 2 small-medium; 3 - medium; 4 medium - large; 5 large; 
-// coats: 1 - double; 2 short; 3 long; 4 curly; 5 rough
+// coats: 1 - double; 2 short; 3 long; 4 curly; 5 rough; 6 fleece
+// intelligence: 1 - not_very; 2 - average; 3 - smart; 4 - very_smart
 
 class goldenRetriever {
     public:
         int coat_type = 1; // 1 = double coat
         std::string colors[5] = {"cream", "gold", "dark gold", "dark red"};
         int size = 4;
+        int intelligence = 4;
 };
 
 class borderCollie {
@@ -16,6 +18,7 @@ class borderCollie {
         int coat_type = 5;
         std::string colors = "multicolor";
         int size = 3;
+        int intelligence = 4;
 };
 
 class frenchBulldog {
@@ -23,6 +26,7 @@ class frenchBulldog {
         int coat_type = 2;
         std::string colors[5] = {"white", "brindle", "multicolor", "fawn", "tan"};
         int size = 2;
+        int intelligence = 3;
 };
 
 class dachshund {
@@ -30,6 +34,7 @@ class dachshund {
         int coat_type = 2;
         std::string colors[6] = {"black", "brown", "chocolate", "cream", "tan", "red"};
         int size = 1;
+        int intelligence = 2;
 };
 
 class poodle {
@@ -37,33 +42,55 @@ class poodle {
         int coat_type = 4;
         std::string colors[10] = {"black", "white", "apricot", "cream", "multicolor", "silver", "brown", "red", "grey", "blue"};
         int size = 2;
+        int intelligence = 4;
+};
+
+class mini_labradoodle {
+    public:
+        int coat_type = 6;
+        std::string colors[7] = {"cream", "gold", "apricot", "red", "black", "silver", "multicolor"};
+        int size = 1;
+        int intelligence = 4;
 };
 
 std::string input_color;
 int input_size;
 std::string raw_size;
+std::string raw_intel;
 std::string coat_raw;
 int input_coat_type;
+int input_intel;
+
 int is_golden_retriever_color;
-int is_border_collie_color;
-int is_bulldog_color;
-int is_dachshund_color;
-int is_poodle_color;
 int is_golden_retriever_size;
-int is_border_collie_size;
-int is_bulldog_size;
-int is_dachshund_size;
-int is_poodle_size;
 int is_golden_retriever_coat;
-int is_border_collie_coat;
-int is_bulldog_coat;
-int is_dachshund_coat;
-int is_poodle_coat;
+int is_golden_retriever_intel;
 int is_golden_retriever;
+int is_border_collie_color;
+int is_border_collie_size;
+int is_border_collie_coat;
+int is_border_collie_intel;
 int is_border_collie;
+int is_bulldog_color;
+int is_bulldog_size;
+int is_bulldog_coat;
+int is_bulldog_intel;
 int is_bulldog;
+int is_dachshund_color;
+int is_dachshund_size;
+int is_dachshund_coat;
+int is_dachshund_intel;
 int is_dachshund;
+int is_poodle_color;
+int is_poodle_size;
+int is_poodle_coat;
+int is_poodle_intel;
 int is_poodle;
+int is_mlabradoodle_color;
+int is_mlabradoodle_size;
+int is_mlabradoodle_coat;
+int is_mlabradoodle_intel;
+int is_mlabradoodle;
 std::string yesno;
 // int result_accuracy; unused for now
 
@@ -80,6 +107,8 @@ void coat(std::string to_lower) {
         input_coat_type = 4;
     } else if (to_lower == "rough") {
         input_coat_type = 5;
+    } else if (to_lower == "fleece") {
+        input_coat_type = 6;
     } else {
         throw std::runtime_error("coat not found");
     }
@@ -121,6 +150,13 @@ void compare_color(std::string color) {
     } else {
         is_poodle_color = 0;
     }
+    mini_labradoodle ml;
+    auto mlit = std::find(ml.colors, ml.colors + 7, color);
+    if (mlit != ml.colors + 7) {
+        is_mlabradoodle_color = 1;
+    } else {
+        is_mlabradoodle_color = 0;
+    }
 }
 
 void compare_size(int size) {
@@ -135,6 +171,7 @@ void compare_size(int size) {
         is_poodle_size = 1;
     } else if (size == 1) {
         is_dachshund_size = 1;
+        is_mlabradoodle_size = 1;
     } else {
         throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_size");
     }
@@ -152,29 +189,75 @@ void compare_coat(int coat) {
         is_dachshund_coat = 1;
     } else if (coat == 4) {
         is_poodle_coat = 1;
+    } else if (coat == 6) {
+        is_mlabradoodle_coat = 1;
     } else {
         throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_coat");
     }
 } 
 
+void intelligence(std::string intel){
+    std::transform(intel.begin(), intel.end(), intel.begin(), ::tolower);
+     if (intel == "not_very") {
+        input_intel = 1;
+    } else if (intel == "average") {
+        input_intel = 2;
+    } else if (intel == "smart") {
+        input_intel = 3;
+    } else if (intel == "very_smart") {
+        input_intel = 4;
+    } else {
+        throw std::runtime_error("intelligence level not found");
+    }
+}
+
+void compare_intelligence(int intel) {
+    goldenRetriever gl;
+    borderCollie bl;
+    dachshund d;
+    poodle p;
+    switch(intel) {
+        case 1:
+            break;
+        case 2:
+            is_dachshund_intel = 1;
+            break;
+        case 3:
+            is_bulldog_intel = 1;
+            break;
+        case 4:
+            is_golden_retriever_intel = 1;
+            is_border_collie_intel = 1;
+            is_poodle_intel = 1;
+            is_mlabradoodle_intel = 1;
+            break;
+        default:
+            throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_intelligence");
+
+    }
+}
+
 void compare_final() {
     goldenRetriever gl;
     borderCollie bl;
-    if (is_golden_retriever_coat == 1 and is_golden_retriever_color == 1 and is_golden_retriever_size == 1) {
+    if (is_golden_retriever_coat == 1 and is_golden_retriever_color == 1 and is_golden_retriever_size == 1 and is_golden_retriever_intel == 1) {
         is_golden_retriever = 1;
         std::cout << "Is your dog a golden retriever?" << std::endl;
-    } else if (is_border_collie_coat == 1 and is_border_collie_color == 1 and is_border_collie_size == 1) {
+    } else if (is_border_collie_coat == 1 and is_border_collie_color == 1 and is_border_collie_size == 1 and is_border_collie_intel == 1) {
         is_border_collie = 1;
         std::cout << "Is your dog a border collie?" << std::endl;
-    } else if (is_bulldog_coat == 1 and is_bulldog_color == 1 and is_bulldog_size == 1) {
+    } else if (is_bulldog_coat == 1 and is_bulldog_color == 1 and is_bulldog_size == 1 and is_bulldog_intel == 1) {
         is_bulldog = 1;
         std::cout << "Is your dog a french bulldog?" << std::endl;
-    } else if (is_dachshund_coat == 1 and is_dachshund_color == 1 and is_dachshund_size == 1) {
+    } else if (is_dachshund_coat == 1 and is_dachshund_color == 1 and is_dachshund_size == 1 and is_dachshund_intel == 1) {
         is_dachshund = 1;
         std::cout << "Is your dog a dachshund?" << std::endl;
-    } else if (is_poodle_coat == 1 and is_poodle_color == 1 and is_poodle_size == 1) {
+    } else if (is_poodle_coat == 1 and is_poodle_color == 1 and is_poodle_size == 1 and is_poodle_intel == 1) {
         is_poodle = 1;
         std::cout << "Is your dog a poodle?" << std::endl;
+    } else if (is_mlabradoodle_coat == 1 and is_mlabradoodle_color == 1 and is_mlabradoodle_size == 1 and is_mlabradoodle_intel == 1) {
+        is_mlabradoodle = 1;
+        std::cout << "Is your dog a small labradoodle?" << std::endl;
     } else {
         throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo error in compare_final");
     }
@@ -211,7 +294,7 @@ int main() {
     goldenRetriever glRet;
     std::cout << "dog-ident v1, for woof" << std::endl;
 questions:
-    std::cout << "what type of coat does your dog have? short, long, curly, double: ";
+    std::cout << "what type of coat does your dog have? short, long, curly, double, fleece, rough: ";
     std::cin >> coat_raw;
     try {
         coat(coat_raw);
@@ -246,6 +329,20 @@ questions:
         compare_coat(input_coat_type);
     } catch (const std::exception& coat_error) {
         std::cout << "error: " << coat_error.what() << std::endl;
+        return 1;
+    }
+    std::cout << "how intelligent would you describe your dog? not_very, average, smart, very_smart: ";
+    std::cin >> raw_intel;
+    try {
+        intelligence(raw_intel);
+    } catch(std::exception& intel_error) {
+        std::cout << "error: " << intel_error.what() << std::endl;
+        return 1;
+    }
+    try {
+        compare_intelligence(input_intel);
+    } catch(std::exception& intel_compare_error) {
+        std::cout << "error: " << intel_compare_error.what() << std::endl;
         return 1;
     }
     try {

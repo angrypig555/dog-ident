@@ -3,8 +3,11 @@ project(dog-ident VERSION 0.1.0 LANGUAGES C CXX)
 
 if(MSVC)
     add_compile_options(/Zc:twoPhase- /permissive- /experimental:preprocessor)
-    # This specifically enables 'and', 'or', 'not'
     add_compile_options(/reference:header-unit=std.core) 
+endif()
+
+if(WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
 endif()
 
 add_executable(dog-ident src/main.cpp)
