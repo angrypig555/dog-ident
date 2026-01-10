@@ -1,6 +1,9 @@
 #include<iostream>
 #include<algorithm>
 
+// hello anyone looking to add a dog breed to this program, i left this as a reference.
+// please always name classes like this: fooBar
+// and integers like this: is_foo_bar
 // sizes: 1 - small; 2 small-medium; 3 - medium; 4 medium - large; 5 large; 
 // coats: 1 - double; 2 short; 3 long; 4 curly; 5 rough; 6 fleece
 // intelligence: 1 - not_very; 2 - average; 3 - smart; 4 - very_smart
@@ -53,6 +56,14 @@ class mini_labradoodle {
         int intelligence = 4;
 };
 
+class labrador {
+    public:
+        int coat_type = 1;
+        std::string colors[5] = {"black", "chocolate", "brown", "yellow", "cream"};
+        int size = 3;
+        int intelligence = 4;
+};
+
 std::string input_color;
 int input_size;
 std::string raw_size;
@@ -91,6 +102,11 @@ int is_mlabradoodle_size;
 int is_mlabradoodle_coat;
 int is_mlabradoodle_intel;
 int is_mlabradoodle;
+int is_labrador_color;
+int is_labrador_size;
+int is_labrador_coat;
+int is_labrador_intel;
+int is_labrador;
 std::string yesno;
 // int result_accuracy; unused for now
 
@@ -157,6 +173,13 @@ void compare_color(std::string color) {
     } else {
         is_mlabradoodle_color = 0;
     }
+    labrador l;
+    auto lit = std::find(l.colors, l.colors + 5, color);
+    if (lit != l.colors + 5) {
+        is_labrador_color = 1;
+    } else {
+        is_labrador_color = 0;
+    }
 }
 
 void compare_size(int size) {
@@ -166,6 +189,7 @@ void compare_size(int size) {
         is_golden_retriever_size = 1;
     } else if (size == 3) {
         is_border_collie_size = 1;
+        is_labrador_size = 1;
     } else if (size == 2) {
         is_bulldog_size = 1;
         is_poodle_size = 1;
@@ -182,6 +206,7 @@ void compare_coat(int coat) {
     borderCollie bl;
     if (coat == 1) {
         is_golden_retriever_coat = 1;
+        is_labrador_coat = 1;
     } else if (coat == 5) {
         is_border_collie_coat = 1;
     } else if (coat == 2) {
@@ -230,6 +255,7 @@ void compare_intelligence(int intel) {
             is_border_collie_intel = 1;
             is_poodle_intel = 1;
             is_mlabradoodle_intel = 1;
+            is_labrador_intel = 1;
             break;
         default:
             throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_intelligence");
@@ -258,8 +284,9 @@ void compare_final() {
     } else if (is_mlabradoodle_coat == 1 and is_mlabradoodle_color == 1 and is_mlabradoodle_size == 1 and is_mlabradoodle_intel == 1) {
         is_mlabradoodle = 1;
         std::cout << "Is your dog a small labradoodle?" << std::endl;
-    } else {
-        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo error in compare_final");
+    } else if (is_labrador_coat == 1 and is_labrador_color == 1 and is_labrador_size == 1 and is_labrador_intel == 1) {
+        is_labrador = 1;
+        std::cout << "Is your dog a labrador retriever?" << std::endl;
     }
 
 }
