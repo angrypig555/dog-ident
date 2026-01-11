@@ -64,6 +64,14 @@ class labrador {
         int intelligence = 4;
 };
 
+class shepherd {
+    public:
+        int coat_type = 1;
+        std::string colors[7] = {"black", "white", "gray", "grey", "multicolor", "tan", "sable"};
+        int size = 4;
+        int intelligence = 4;
+};
+
 std::string input_color;
 int input_size;
 std::string raw_size;
@@ -107,6 +115,11 @@ int is_labrador_size;
 int is_labrador_coat;
 int is_labrador_intel;
 int is_labrador;
+int is_shepherd_color;
+int is_shepherd_size;
+int is_shepherd_coat;
+int is_shepherd_intel;
+int is_shepherd;
 std::string yesno;
 // int result_accuracy; unused for now
 
@@ -180,6 +193,13 @@ void compare_color(std::string color) {
     } else {
         is_labrador_color = 0;
     }
+    shepherd s;
+    auto sit = std::find(s.colors, s.colors + 7, color);
+    if (sit != s.colors + 7) {
+        is_shepherd_color = 1;
+    } else {
+        is_shepherd_color = 0;
+    }
 }
 
 void compare_size(int size) {
@@ -187,6 +207,7 @@ void compare_size(int size) {
     borderCollie bl;
     if (size == 4) {
         is_golden_retriever_size = 1;
+        is_shepherd_size = 1;
     } else if (size == 3) {
         is_border_collie_size = 1;
         is_labrador_size = 1;
@@ -207,6 +228,7 @@ void compare_coat(int coat) {
     if (coat == 1) {
         is_golden_retriever_coat = 1;
         is_labrador_coat = 1;
+        is_shepherd_coat = 1;
     } else if (coat == 5) {
         is_border_collie_coat = 1;
     } else if (coat == 2) {
@@ -256,6 +278,7 @@ void compare_intelligence(int intel) {
             is_poodle_intel = 1;
             is_mlabradoodle_intel = 1;
             is_labrador_intel = 1;
+            is_shepherd_intel = 1;
             break;
         default:
             throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_intelligence");
@@ -287,6 +310,11 @@ void compare_final() {
     } else if (is_labrador_coat == 1 and is_labrador_color == 1 and is_labrador_size == 1 and is_labrador_intel == 1) {
         is_labrador = 1;
         std::cout << "Is your dog a labrador retriever?" << std::endl;
+    } else if (is_shepherd_coat == 1 and is_shepherd_color == 1 and is_shepherd_size == 1 and is_shepherd_intel == 1) {
+        is_shepherd = 1;
+        std::cout << "Is your dog a german shepherd?" << std::endl;
+    } else {
+        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_final");
     }
 
 }
@@ -382,7 +410,7 @@ questions:
     lower(yesno);
     if (yesno == "no") {
         goto questions;
-    } else if (yesno == "yes") {
+    } else { // removed the else if for yes because if its not a no its a yes
         std::cout << "yay!" << std::endl;
         std::cout << "if you have any dog breeds that you would like to get added, please open an issue in the repo" << std::endl;
         std::cout << "thank you for using dog-ident" << std::endl;
