@@ -72,6 +72,14 @@ class shepherd {
         int intelligence = 4;
 };
 
+class beagle {
+    public:
+        int coat_type = 1;
+        std::string colors[5] = {"multicolor", "chocolate", "brown", "white", "tan"};
+        int size = 2;
+        int intelligence = 4;
+};
+
 std::string input_color;
 int input_size;
 std::string raw_size;
@@ -120,6 +128,11 @@ int is_shepherd_size;
 int is_shepherd_coat;
 int is_shepherd_intel;
 int is_shepherd;
+int is_beagle_color;
+int is_beagle_size;
+int is_beagle_coat;
+int is_beagle_intel;
+int is_beagle;
 std::string yesno;
 // int result_accuracy; unused for now
 
@@ -200,6 +213,13 @@ void compare_color(std::string color) {
     } else {
         is_shepherd_color = 0;
     }
+    beagle b;
+    auto bit = std::find(b.colors, b.colors + 5, color);
+    if (bit != b.colors + 5) {
+        is_beagle_color = 1;
+    } else {
+        is_beagle_color = 0;
+    }
 }
 
 void compare_size(int size) {
@@ -214,11 +234,12 @@ void compare_size(int size) {
     } else if (size == 2) {
         is_bulldog_size = 1;
         is_poodle_size = 1;
+        is_beagle_size = 1;
     } else if (size == 1) {
         is_dachshund_size = 1;
         is_mlabradoodle_size = 1;
     } else {
-        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_size");
+        throw std::runtime_error("your dog is currently not in our db :( please open an issue in the github repo, error in compare_size");
     }
 }
 
@@ -229,6 +250,7 @@ void compare_coat(int coat) {
         is_golden_retriever_coat = 1;
         is_labrador_coat = 1;
         is_shepherd_coat = 1;
+        is_beagle_coat = 1;
     } else if (coat == 5) {
         is_border_collie_coat = 1;
     } else if (coat == 2) {
@@ -239,7 +261,7 @@ void compare_coat(int coat) {
     } else if (coat == 6) {
         is_mlabradoodle_coat = 1;
     } else {
-        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_coat");
+        throw std::runtime_error("your dog is currently not in our db :( please open an issue in the github repo, error in compare_coat");
     }
 } 
 
@@ -279,9 +301,10 @@ void compare_intelligence(int intel) {
             is_mlabradoodle_intel = 1;
             is_labrador_intel = 1;
             is_shepherd_intel = 1;
+            is_beagle_intel = 1;
             break;
         default:
-            throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_intelligence");
+            throw std::runtime_error("your dog is currently not in our db :( please open an issue in the github repo, error in compare_intelligence");
 
     }
 }
@@ -313,8 +336,11 @@ void compare_final() {
     } else if (is_shepherd_coat == 1 and is_shepherd_color == 1 and is_shepherd_size == 1 and is_shepherd_intel == 1) {
         is_shepherd = 1;
         std::cout << "Is your dog a german shepherd?" << std::endl;
+    } else if (is_beagle_coat == 1 and is_beagle_color == 1 and is_beagle_size == 1 and is_beagle_intel == 1) {
+        is_beagle = 1;
+        std::cout << "Is your dog a beagle?" << std::endl;
     } else {
-        throw std::runtime_error("your dog is currently not in our db :( please open a ticket in the github repo, error in compare_final");
+        throw std::runtime_error("your dog is currently not in our db :( please open an issue in the github repo, error in compare_final");
     }
 
 }
@@ -372,7 +398,7 @@ questions:
     try {
         compare_color(input_color);
     } catch (const std::exception& color_cmp_error) {
-        return 1; // todo: add the error handler
+        return 1; // todo: finish
     }
     try {
         compare_size(input_size);
